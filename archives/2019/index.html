@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script type="text/javascript"
+color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
     <meta charset="UTF-8">
 <meta name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -14,6 +17,8 @@
 
     <meta name="description" content="You will find the light of freedom here.">
 
+
+    <meta name="keywords" content="计算机 机器学习 数据分析 大学学习">
 
 
 <title>Archives: 2019 | FreedomWild</title>
@@ -71,6 +76,8 @@
         </div>
     </nav>
 
+
+
     
     <nav class="navbar-mobile" id="nav-mobile">
         <div class="container">
@@ -116,6 +123,15 @@
 
         
             <h3>2019</h3>
+        
+
+        <article class="archive-item">
+            <a class="archive-item-link" href="/2019/11/14/test1/">test1</a>
+            <span class="archive-item-date">November 14, 2019</span>
+        </article>
+    
+        
+
         
 
         <article class="archive-item">
@@ -176,7 +192,23 @@
       Total blog are <span class="post-count"></span>10k+ byte 
     </span>
 </div>
-
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("11/11/2019 17:38:00");//在此处修改你的建站时间
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+setInterval("createtime()",250);
+</script>
 </footer>
 
     </div>
