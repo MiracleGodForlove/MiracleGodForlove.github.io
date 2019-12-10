@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Harris.Yuan">
+
+
+    <meta name="subtitle" content="Surviva in the wilderness">
+
+
+    <meta name="description" content="You will find the light of freedom here.">
+
+
+    <meta name="keywords" content="计算机 机器学习 数据分析 大学学习">
+
+
+<title>浅谈Hodge猜想 | FreedomWild</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+
+
+<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+<script type="text/javascript" src="/js/fireworks.js"></script>
+
+
+<script type="text/javascript" src="\js\FunnyTitle.js"></script>
+
+<script type="text/javascript"color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Harris&#39; Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+
+
+
+
+    </nav>
+
+
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Harris&#39; Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">浅谈Hodge猜想</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Harris.Yuan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十二月 10, 2019&nbsp;&nbsp;15:11:29</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><strong>Hodge**</strong>猜想**</p>
+<p><strong>关键字</strong>：Hodge猜想  解释 内容  进展</p>
+<p><strong>摘要：</strong>本文简述了对Hodge的理解，Hodge的形式化表述及最新进展</p>
+<p><strong>引言：</strong>人类一直在研究形状的数学，直到一个三角形在公元前500年前第一次被毕达哥拉斯注意。经过了几代人，人们研究的形状越来越复杂，直到大约两千年后，各种几何形状看起来像蒸汽，数学家已经做了所有他们可以想到的形状。</p>
+<p>然后在1637年，笛卡尔认识到，如果抽象一步进一步，几何实际上是与代数相同。如果几何只是一组数字或者用一组数字表示，方程也可以产生一组数字作为它们的解。如果这两组数字完全相同，则在一张之上绘制的线可以被认为是与等式的解相同的东西。正如，如果我们想知道某条线与特定圆交叉的位置，我们可以几何地绘制形状，或者只是用代数方式比较方程，两种方法都会给出相同的答案。</p>
+<p>科学家们进一步研究，如果过在纸上化的图形是二维的，意味着相应的方程只能有两个变量，如果对拥有三个、四个甚至更多变量的方程使用这个技巧，自然的科学家们推广到更高的维度。但是科学家们发现随之方程越来越复杂，甚至方程组都在一起工作，可以在各种维度产生惊人的形状。一些形状仍然可以被形象化，但其中许多是超出了我们可以画的，只有通过代数和一个非常伸展的想象力。这些超出我们想象的对象通常被称为“代数循环”。</p>
+<p>对于这些难以形象化的形状，科学们希望能够绘制或者研究它们的特性。拓扑学家开始看看如果在多面体上绘制形状会发生什么，这些形状可以滑动和拉伸，则三角形可以扭曲成五边形（拓扑学家将所有可能从一个变形到另一个的性质分组成“同源性类”——一种广义形状）。在代数学家眼中，拓扑学家将同源性类绘制到歧管上，实际就是向歧管中添加代数循环，这些附加方程在歧管内产生新的代数循环。此时就产生了新的问题，如果把任何随机的可能的形状绘制到歧管上，怎么知道它是否可以被拉伸成一个不同的形状，可以被描述为一个代数循环。</p>
+<h1 id="一、-Hodge猜想的理解"><a href="#一、-Hodge猜想的理解" class="headerlink" title="一、  Hodge猜想的理解"></a>一、  Hodge猜想的理解</h1><p>苏格兰数学家威廉.霍奇的想法是：怎么能知道哪些类的同源性在任何给定歧管，相当于一个代数周期。威廉.霍奇提出一个伟大的想法：有一个小的平滑的“空间”，由一群方程描述，使得这个空间具有均匀的维度，然后通过获取空间基本的“拓扑”信息，并将其分解成更小的几何部分，由数学对标记。在几何部分内的理性东西被称为“Hodge循环”。每个较小的几何部分是称为代数循环的几何部分的组合。霍奇猜想断言，对于成堆的切碎的木材，树枝实际上是被称为原子或代数循环的几何部分的组合。</p>
+<p>霍奇提出猜想：对于射影代数簇空间，在非奇异复射影代数簇上，任何一个霍奇类都可表达为代数闭链类的有理线性组合。</p>
+<p>在我们接触的普通几何中，我们知道“任何一个形状的几何图形，不管它有多复杂，它都可以用一堆简单的几何图形拼成。”。这是二十世纪的前半叶，数学家得到研究复杂形状的方法的基本思想：任何一个复杂形状都可以由一组简单的几何形状基本模块粘合形成。这是极其传统的数学方法，也是千年来欧几里得几何公理系统的原始思想。对于这些难以形象化的形状，霍奇的想法是将复杂的几何问题简化成简单的几何问题来解决的方法。把一些复杂的东西简化后，按照相同的部分进行分类，方便数学家们对这些类进行归纳处理，而对于到底从哪些简单集合对象，即几何出发点组合起、组合的程序/序列又是什么，霍奇提出必须加上一些没有任何几何解释的“非几何”基本模块，来作为几何出发点，来解决这个模糊的几何出发点，而且霍奇断言这些“非几何”基本模块的存在。这便是霍奇的猜想——在非奇异复射影代数簇上，任何一个霍奇类对象都可以表示为代数闭链类的有理线性组合</p>
+<h1 id="二、-Hodge猜想的数学形式"><a href="#二、-Hodge猜想的数学形式" class="headerlink" title="二、  Hodge猜想的数学形式"></a>二、  Hodge猜想的数学形式</h1><p><strong>2.1 hodge**</strong>猜想的基本内容[1]**</p>
+<p>对于任何一个紧定向微分流                                上的一个微分  形式是指在局部坐标上具有如下形式的表达式:</p>
+<p>其中  是复值可微函数. 我们记  为可以黏合 成  上的整体微分  形式的集合. 微分算子自然地 给出一个映射</p>
+<p>容易验证  . De Rham 的工作证明 了  , 因此复系数上同调环里面的元素都可以用一些闭的微分形式来表示. 如果  是一个复流形(即局部上同构于  中的 开集), 则在其局部复坐标  下, 每个微分形 式可以写成如下的表达式:<br>   . 我们称这样的微分形式为  上的  形式. 我们 记  为  中所有可以用  形式来表 示的同调类构成的子空间. Hodge的奠基性工作[1]证明了: 如果  具有一个 与复结构相容的Riemann度量(即  为一个  流形), 则有如下的Hodge分解:<br>   这是一个深刻的定理, 其证明依赖于紧流形上椭圆微分算子的性质. 这个定理对于之后数学的发展有着深远的影响.[1]</p>
+<p>发展至今，他已经有如下定理下·</p>
+<p><strong>2.2.**</strong>定理一[2]**</p>
+<p>  <em>如果</em>  <em>是一个紧凑的</em>  <em>流形，则它具有规范分解</em></p>
+<p>​            </p>
+<p>其中  是  上类型  的闭合微分形式的de Rham同调类的集合。</p>
+<p>定理的最简单结果是对紧凑型  <em>流形拓扑给出了以下限制：</em></p>
+<p><strong>2.3**</strong>推论一[2]**</p>
+<p>  如果k为奇数，并且  是紧凑的Kähler流形，则  为偶数。</p>
+<p>实际上，我们给出的  的定义清楚地表明Hodge分解满足Hodge对称性：</p>
+<p>​          </p>
+<p>复合共轭作用于  C。非Kähler紧凑复杂曲面的最简单示例（Hopf曲面S）不能满足于推理1的结论[2]</p>
+<p><strong>2.4**</strong>定理二[2]**</p>
+<p>  设X是射影复流形。然后对于任意k，空间  在Q上生成余维数k周期X是一个正式的结合  </p>
+<p><strong>2.5**</strong>定理三[2]**</p>
+<p>  让X是一个复杂的射影歧管和让  ∈  (X, Z)是一个完整的类。  是一个结合的积分系数类  的超曲面  </p>
+<p><strong>2.6**</strong>推论三[2]**</p>
+<p>  等X是一个复杂的射影  次,让  是一个类。  是一个结合合理系数类  曲线  。</p>
+<h1 id="三、-Hodge猜想的最新进展"><a href="#三、-Hodge猜想的最新进展" class="headerlink" title="三、  Hodge猜想的最新进展"></a>三、  Hodge猜想的最新进展</h1><p><strong>3.1**</strong>霍奇猜想定义的讨论**</p>
+<p>哥德尔不完备性定理认为“你的公理集合永远是不完整的，它们不足以证明所有的事实。在数学和生活中，部分真理注定永远难以捉摸。</p>
+<p>霍奇猜想可以用几句话来反驳，因为公理常常是不完整的。如果我们取一组无理代数圈，结果将是类的无理组合。我们不能加上无理代数圈而构成有理线性组合。当在实无理代数环上测试时，定义只是一个定义，而不是像无理形状那样对所有代数几何环的描述。无理代数循环很容易反驳猜想，因为组合是不合理的。下面通过考虑历史讨论、定义陈述和语言概念来考虑霍奇猜想。</p>
+<p><strong>3.2</strong> <strong>“霍奇猜想”的定义的证明</strong></p>
+<p>（1）[3]如果我们把代数圈组合成一个顶点，我们可以看到一个Hodge类是一堆点。上面的一堆点看起来是代数圈或点的线性组合。</p>
+<p>（2）[3]如果Hodge定义“Hodge类是代数圈的cl（Z）类的有理线性组合”，那么我们可以接受他的定义。科学家们被允许将他们的发现命名为“Hodge类是代数循环的类cl（Z）的有理线性组合”，这就提出了定义证明的概念。</p>
+<p><strong>3.3**</strong>“霍奇猜想”的定义的反证**</p>
+<p>（1）[3]我们把代数圈当作彼此相距很远的点。我们将这组点定义为非霍奇循环，因为这些点可以看作是点集，但不是霍奇循环。</p>
+<p>（2）[3]我们看到一个点在另一个点上的代数变化。由于点的组合似乎是一个点，所以组合是一个点而不是一个霍奇循环。</p>
+<p>（3）[3]我们把代数变量定义为一组总是变化的点，而不是一对一。这些点的组合不是线性的，因此这个猜想是不成立的，因为这些点总是在变化，而不是一对一。</p>
+<p>（4）[3]霍奇他的霍奇类的命名不应该像点的组合或代数变化那样适用于语言或与语言相联系。点的代数变化或任何代数变化不必与一个霍奇循环或Hodge类相连。这就提出了历史反证的概念。</p>
+<p>（5）[3]代数圈可以使用某些符号和字母，代数圈可以使用某些其他符号和字母。由于其他字母不必相同，代数循环不必与代数种类相关，因为用于替换方程部分的术语或字母不必相似或相关。</p>
+<p><strong>3.4**</strong>霍奇猜想的延伸**</p>
+<p>在1903年建立了许多命名法，数学家可以建立自己的系统来描述代数、几何和拓扑学。就是说，如果我定义代数变体可以包含不均匀划分的非理性组合，这样就可以证明霍奇猜想是不成立的。</p>
+<p>但霍奇创立了许多命名法。他自己建立的命名法可以看作是一种定义性证明。如果霍奇建立了命名法和术语，他就可以在他的系统和猜想中拥有自己的语言、术语和定义。</p>
+<p>[4]并不是所有解释几何图像的类似数字和字母的组合都必须平均地分割开来类的组合可以是非理性的，但不能均匀划分。作为一种反证或反证，组合不能涉及整数解，因而涉及非理性组合或反证猜想。如下图的几何图形：曲线和弧线指向内的内波拉，曲线和弧线指向外的外波拉，以及圆射线指向外的圆射线。圆射线有点像反向的锥射线，彼此远离而不是指向一个点。这些圆射线或任何其他代数变体的组合不需要平均划分，因此不需要有理组合。组合可能不均匀。</p>
+<p><strong>3.5**</strong>总结**</p>
+<p>对于猜想，证明和反证是可能的，一个人可以很容易地证明和反证一个猜想。霍奇在1930和1940年代发明了一种特殊的循环或类，它可以被证明和证明是代数循环的线性组合。</p>
+<p>但霍奇猜想既可以通过非理性组合来证明，也可以通过接受霍奇的定义和陈述来证明，因为我们和数学家在语言上、道德上和数学上都被允许使用词语并构成概念和定义。所以，霍奇猜想既可以是有理组合，也可以是无理组合。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] 中国科学院数学与系统科学研究院, 北京 100190 E-mail: <a href="mailto:bhfu@math.ac.cn" target="_blank" rel="noopener">bhfu@math.ac.cn</a></p>
+<p>[2] Voisin C. (2016) The Hodge Conjecture. In: Nash, Jr. J., Rassias M. (eds) Open Problems in Mathematics. Springer, Cham</p>
+<p>[3] James T.Struck BA,BS,AA,MLIS.Proof and Disproof of the Hodge Conjecture[J].2016-2017-2018</p>
+<p>[4] Devlin,Keith,The Millennium Problems The Seven Greatest Unsolved Mathematical Puzzles of our Time,Basic Books,New York,2002</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Harris.Yuan</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://miraclegodforlove.github.io/2019/12/10/%E6%B5%85%E8%B0%88Hodge%E7%8C%9C%E6%83%B3/">https://miraclegodforlove.github.io/2019/12/10/%E6%B5%85%E8%B0%88Hodge%E7%8C%9C%E6%83%B3/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%95%B0%E5%AD%A6/"># 数学</a>
+                    
+                        <a href="/tags/%E9%9C%8D%E5%A5%87%E7%8C%9C%E6%83%B3/"># 霍奇猜想</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();" target="_blank" rel="noopener">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2019/12/09/%E5%8F%96%E5%8F%8D%E6%95%B4%E6%AE%B5%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E7%AE%80%E6%98%93%E6%96%B9%E6%B3%95/">取反整段正则表达式的简易方法</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Harris.Yuan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+<!-- 新增访客统计代码-->
+<div class="busuanzi-count">
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">Total visits:<span id="busuanzi_value_site_pv"></span> Times  ||  </span>
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      Total Users: <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> People
+    </span>
+    <div class="powered-by"></div>
+    <!-- <span class="site-uv">
+      <i class="fa fa-eye"></i>
+      Total Users: <span class="busuanzi-value" id="busuanzi_value_site_pv"></span> People
+    </span> -->
+    <!-- 博客字数统计 -->
+    <span class="site-pv">
+      <i class="fa fa-pencil"></i>
+      Total blog are <span class="post-count"></span>10k+ byte 
+    </span>
+</div>
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("11/11/2019 17:38:00");//在此处修改你的建站时间
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+setInterval("createtime()",250);
+</script>
+</footer>
+
+    </div>
+
+</body>
+</html>
+<script type="text/javascript" src="/js/click_show_text.js"></script>
